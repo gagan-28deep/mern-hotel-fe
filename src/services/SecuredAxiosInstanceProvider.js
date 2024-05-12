@@ -45,7 +45,7 @@ const createSecureAxiosClient = (baseURL) => {
         refreshToken,
       });
       console.log("newww", newAccessToken);
-      // setStorage('access_token', newAccessToken?.data?.access_token);
+      setStorage('accessToken', newAccessToken?.data?.accessToken);
     } catch (error) {
       console.log(
         "========================refreshToken================================"

@@ -22,9 +22,6 @@ const userSlice = createSlice({
       state.userLoading = false;
       state.userData = action.payload;
       state.userError = null;
-      state.accessToken = action.payload.accessToken;
-      state.refreshToken = action.payload.refreshToken;
-      state.isAuthenticated = true;
     },
     // Get User Error
     getUserError: (state, action) => {

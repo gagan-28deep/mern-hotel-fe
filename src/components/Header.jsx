@@ -1,10 +1,15 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import useAuth from "../Hooks/useAuth";
 
 const Header = () => {
-  // const  user  = useSelector((state) => console.log(state?.user?.userData?.user));
+  const { handleSignOut } = useAuth();
   const user = useSelector((state) => state?.user?.userData?.user);
+
+  const handleLogout = async () => {
+    await handleSignOut();
+  };
 
   useEffect(() => {}, [user]);
   return (
@@ -24,7 +29,9 @@ const Header = () => {
           <span className="text-white font-bold flex gap-4 tracking-tight">
             <Link to="/my-bookings">My Bookings</Link>
             <Link to="/my-hotels">My Hotels</Link>
-            <button>Logout</button>
+            <p className="cursor-pointer" onClick={handleLogout}>
+              Logout
+            </p>
           </span>
         )}
       </div>

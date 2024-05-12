@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
 import SigninPage from "./pages/SigninPage.jsx";
+import AuthLayout from "./components/AuthLayout.jsx";
 
 const router = createBrowserRouter([
   {
@@ -16,11 +17,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: "signup",
-        element: <SignupPage />,
+        element: (
+          <AuthLayout authentication = {false} >
+            <SignupPage />
+          </AuthLayout>
+        ),
       },
       {
         path: "login",
-        element: <SigninPage />,
+        element: (
+          <AuthLayout authentication={false}>
+            <SigninPage />
+          </AuthLayout>
+        ),
       },
     ],
   },

@@ -11,9 +11,11 @@ import { useNavigate } from "react-router-dom";
 import { showToast } from "../utils/showToast";
 import { signup } from "../services/auth/register";
 import { signin } from "../services/auth/signin";
-import { setStorage } from "../services/storageService";
+import { signout } from "../services/auth/signout";
+import { removeStorage, setStorage } from "../services/storageService";
 
 const useAuth = () => {
+  const accessToken = useSelector((state) => state?.user?.accessToken);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -60,9 +62,34 @@ const useAuth = () => {
       showToast(error?.response?.data?.message, "error");
     }
   };
+
+  // Logout
+  const handleSignOut = async () => {
+    try {
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
+      const response = await signout(headers);
+      if (response) {
+        dispatch(getAccessToken(null));
+        dispatch(getIsAuthenticated(false));
+        // dispatch(getUserData(response?.data?.data))
+        dispatch(getRefreshToken(null));
+        dispatch(getUserSuccess(null));
+        removeStorage("accessToken");
+        removeStorage("refreshToken");
+        removeStorage("user");
+        showToast(response?.data?.message, "success");
+      }
+    } catch (error) {
+      dispatch(getUserError(error?.response?.data?.message));
+      showToast(error?.response?.data?.message, "error");
+    }
+  };
   return {
     handleSignUp,
     handleLogin,
+    handleSignOut,
   };
 };
 
