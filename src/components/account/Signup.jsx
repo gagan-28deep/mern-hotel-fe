@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import useAuth from "../../Hooks/useAuth";
 
 const Signup = () => {
   const {
@@ -9,8 +10,10 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
+  const { handleSignUp } = useAuth();
+
   const signupUser = (data) => {
-    console.log(data);
+    handleSignUp(data);
   };
   return (
     <form onSubmit={handleSubmit(signupUser)} className="flex flex-col gap-5">
