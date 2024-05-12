@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../Hooks/useAuth";
+import { Link } from "react-router-dom";
 
 const Signup = () => {
   const {
@@ -106,7 +107,13 @@ const Signup = () => {
             <span className="text-red-500">Passwords do not match</span>
           )}
       </label>
-      <span>
+      <span className="flex justify-between items-center">
+        <span>
+          Already have an account?{" "}
+          <Link to="/login" className="text-blue-600">
+            Login
+          </Link>
+        </span>
         <button
           type="submit"
           className="bg-blue-600 text-white font-bold p-2 px-4 rounded hover:bg-blue-300 text-xl"
