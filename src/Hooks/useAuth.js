@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { showToast } from "../utils/showToast";
 import { signup } from "../services/auth/register";
+import { signin } from "../services/auth/signin";
 import { setStorage } from "../services/storageService";
 
 const useAuth = () => {
@@ -42,8 +43,8 @@ const useAuth = () => {
   const handleLogin = async (data) => {
     try {
       dispatch(getUserLoading());
-      const response = await signup(data);
-      if (response && response?.status === 201) {
+      const response = await signin(data);
+      if (response && response?.status === 200) {
         setStorage("accessToken", response?.data?.data?.accessToken);
         setStorage("refreshToken", response?.data?.data?.refreshToken);
         setStorage("user", response?.data?.data);

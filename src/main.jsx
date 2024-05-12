@@ -7,6 +7,7 @@ import SignupPage from "./pages/SignupPage.jsx";
 import { ToastContainer } from "react-toastify";
 import { store } from "./store/store";
 import { Provider } from "react-redux";
+import SigninPage from "./pages/SigninPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
       {
         path: "signup",
         element: <SignupPage />,
+      },
+      {
+        path: "login",
+        element: <SigninPage />,
       },
     ],
   },
