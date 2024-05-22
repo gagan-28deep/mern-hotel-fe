@@ -9,6 +9,7 @@ import { store } from "./store/store";
 import { Provider } from "react-redux";
 import SigninPage from "./pages/SigninPage.jsx";
 import AuthLayout from "./components/AuthLayout.jsx";
+import AddHotelPage from "./pages/AddHotelPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,7 @@ const router = createBrowserRouter([
       {
         path: "signup",
         element: (
-          <AuthLayout authentication = {false} >
+          <AuthLayout authentication={false}>
             <SignupPage />
           </AuthLayout>
         ),
@@ -30,6 +31,15 @@ const router = createBrowserRouter([
             <SigninPage />
           </AuthLayout>
         ),
+      },
+      {
+        path: "add-hotel",
+        element: (
+          <AuthLayout authentication={true}>
+            <AddHotelPage />
+          </AuthLayout>
+        ),
+        // element: <AddHotelPage />,
       },
     ],
   },

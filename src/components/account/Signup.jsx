@@ -2,6 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../Hooks/useAuth";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Loader from "../Loader";
 
 const Signup = () => {
   const {
@@ -16,6 +18,8 @@ const Signup = () => {
   const signupUser = (data) => {
     handleSignUp(data);
   };
+
+  const userLoading = useSelector((state) => state?.user?.userLoading);
   return (
     <form onSubmit={handleSubmit(signupUser)} className="flex flex-col gap-5">
       <h2 className="text-3xl font-bold">Create an Account</h2>
@@ -107,6 +111,7 @@ const Signup = () => {
             <span className="text-red-500">Passwords do not match</span>
           )}
       </label>
+      {userLoading && <Loader />}
       <span className="flex justify-between items-center">
         <span>
           Already have an account?{" "}

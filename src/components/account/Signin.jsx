@@ -2,6 +2,8 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import useAuth from "../../Hooks/useAuth";
 import { Link } from "react-router-dom";
+import Loader from "../Loader";
+import { useSelector } from "react-redux";
 const Signin = () => {
   const { handleLogin } = useAuth();
   const {
@@ -13,6 +15,9 @@ const Signin = () => {
   const userLogin = (data) => {
     handleLogin(data);
   };
+
+  const userLoading = useSelector((state) => state?.user?.userLoading);
+
   return (
     <form onSubmit={handleSubmit(userLogin)} className="flex flex-col gap-5">
       <h2 className="text-3xl font-bold">Sign In</h2>
@@ -40,10 +45,14 @@ const Signin = () => {
           <span className="text-red-500">Password is required</span>
         )}
       </label>
+      {userLoading && <Loader />}
       <span className="flex justify-between items-center">
         <span>
           Not Registered?
-          <Link className="text-blue-600" to="/signup"> Create an Account</Link>
+          <Link className="text-blue-600" to="/signup">
+            {" "}
+            Create an Account
+          </Link>
         </span>
         <button
           type="submit"
