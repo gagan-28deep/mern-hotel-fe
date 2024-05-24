@@ -10,6 +10,7 @@ import { Provider } from "react-redux";
 import SigninPage from "./pages/SigninPage.jsx";
 import AuthLayout from "./components/AuthLayout.jsx";
 import AddHotelPage from "./pages/AddHotelPage.jsx";
+import MyHotelPage from "./pages/MyHotelPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -39,7 +40,10 @@ const router = createBrowserRouter([
             <AddHotelPage />
           </AuthLayout>
         ),
-        // element: <AddHotelPage />,
+      },
+      {
+        path: "my-hotels",
+        element: <MyHotelPage />,
       },
     ],
   },

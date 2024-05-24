@@ -6,7 +6,10 @@ const initialState = {
   hotelData: null,
   hotelError: null,
 
-  // For all hotels
+  // For all hotels of a logged in user
+  allHotelsLoading: false,
+  allHotelsData: null,
+  allHotelsError: null,
 };
 
 const hotelSlice = createSlice({
@@ -33,6 +36,21 @@ const hotelSlice = createSlice({
       state.hotelData = null;
       state.hotelError = null;
     },
+
+    // For all hotels of a logged in user
+    getAllHotelsLoading: (state) => {
+      state.allHotelsLoading = true;
+    },
+    getAllHotelsSuccess: (state, action) => {
+      state.allHotelsLoading = false;
+      state.allHotelsData = action.payload;
+      state.allHotelsError = null;
+    },
+    getAllHotelsError: (state, action) => {
+      state.allHotelsLoading = false;
+      state.allHotelsData = null;
+      state.allHotelsError = action.payload;
+    },
   },
 });
 
@@ -41,6 +59,10 @@ export const {
   getHotelSuccess,
   getHotelError,
   getInitialData,
+
+  getAllHotelsLoading,
+  getAllHotelsSuccess,
+  getAllHotelsError,
 } = hotelSlice.actions;
 
 export default hotelSlice.reducer;
