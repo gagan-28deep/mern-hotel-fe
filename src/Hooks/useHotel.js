@@ -13,6 +13,8 @@ import { createHotel } from "../services/hotel/createHotel";
 import { getAllHotels } from "../services/hotel/getAllHotels";
 import { showToast } from "../utils/showToast";
 import { useNavigate } from "react-router-dom";
+import { getHotelById } from "../services/hotel/getHotelById";
+import { updateHotel } from "../services/hotel/updateHotel";
 const useHotel = () => {
   const navigate = useNavigate();
   const accessToken = useSelector((state) => state?.user?.accessToken);
@@ -55,9 +57,45 @@ const useHotel = () => {
     }
   };
 
+  // Get hotel by id
+  const handleGetHotelById = async (id) => {
+    try {
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
+      dispatch(getHotelLoading());
+      const response = await getHotelById(id, headers);
+      if (response && response?.status === 200) {
+        dispatch(getHotelSuccess(response?.data?.data));
+      }
+    } catch (error) {
+      dispatch(getHotelError(error?.response?.data?.message));
+      showToast(error?.response?.data?.message, "error");
+    }
+  };
+
+  // update a hotel by id
+  const handleUpdateHotelById = async (id, data) => {
+    try {
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
+      dispatch(getHotelLoading());
+      const response = await updateHotel(id, data, headers);
+      if (response && response?.status === 200) {
+        showToast("Hotel updated successfully", "success");
+        navigate("/my-hotels");
+      }
+    } catch (error) {
+      showToast(error?.response?.data?.message, "error");
+    }
+  };
+
   return {
     handleCreateHotel,
     handleGetLoggedInUserHotels,
+    handleGetHotelById,
+    handleUpdateHotelById,
   };
 };
 

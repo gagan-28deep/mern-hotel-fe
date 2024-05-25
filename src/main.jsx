@@ -11,6 +11,7 @@ import SigninPage from "./pages/SigninPage.jsx";
 import AuthLayout from "./components/AuthLayout.jsx";
 import AddHotelPage from "./pages/AddHotelPage.jsx";
 import MyHotelPage from "./pages/MyHotelPage.jsx";
+import EditHotelPage from "./pages/EditHotelPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +45,10 @@ const router = createBrowserRouter([
       {
         path: "my-hotels",
         element: <MyHotelPage />,
+      },
+      {
+        path: "edit-hotel/:id",
+        element: <EditHotelPage />,
       },
     ],
   },

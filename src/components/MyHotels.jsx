@@ -14,7 +14,6 @@ const MyHotels = () => {
   const hotelsDataLoading = useSelector(
     (state) => state?.hotel?.allHotelsLoading
   );
-  console.log("allHotelDetails", allHotelDetails);
 
   useEffect(() => {
     const initial = async () => {

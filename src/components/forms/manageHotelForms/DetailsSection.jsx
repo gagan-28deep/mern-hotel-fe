@@ -1,14 +1,14 @@
 import React from "react";
 import { useFormContext } from "react-hook-form";
 
-const DetailsSection = () => {
+const DetailsSection = ({hotelDetails}) => {
   const {
     register,
     formState: { errors },
   } = useFormContext();
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-3xl font-bold mb-3">Add Hotel</h1>
+      <h1 className="text-3xl font-bold mb-3">{hotelDetails ? "Edit Hotel Details" : "Add Hotel Details"}</h1>
       <label className="text-gray-500 text-sm font-bold flex-1">
         Name
         <input

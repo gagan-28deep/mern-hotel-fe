@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import DetailsSection from "./DetailsSection";
 import TypesSections from "./TypesSections";
@@ -8,13 +8,17 @@ import ImagesSection from "./ImagesSection";
 import useHotel from "../../../Hooks/useHotel.js";
 import Loader from "../../Loader.jsx";
 import { useSelector } from "react-redux";
-const ManageAllHotelForms = () => {
+const ManageAllHotelForms = ({ hotelDetails }) => {
   const hotelLoading = useSelector((state) => state?.hotel?.hotelLoading);
 
-  const { handleCreateHotel } = useHotel();
+  const { handleCreateHotel, handleUpdateHotelById } = useHotel();
   const formData = useForm();
 
-  const { handleSubmit } = formData;
+  const { handleSubmit, reset } = formData;
+
+  useEffect(() => {
+    reset(hotelDetails);
+  }, [hotelDetails, reset]);
   const createNewHotel = (data) => {
     const formData = new FormData();
     formData.append("name", data.name);
@@ -31,11 +35,29 @@ const ManageAllHotelForms = () => {
       formData.append(`facilities[${index}]`, facility);
     });
 
+    if (data?.imageUrls) {
+      // Flatten the nested arrays in imageUrls
+      const flattenedImageUrls = data.imageUrls.flat();
+
+      // Append each URL to formData
+      flattenedImageUrls.forEach((url, index) => {
+        if (url) {
+          // Ensure the URL is not an empty string
+          formData.append(`imageUrls[${index}]`, url);
+        }
+      });
+    }
+
     Array.from(data?.imageFiles)?.forEach((imageFile) => {
       formData.append("imageFiles", imageFile);
     });
 
-    handleCreateHotel(formData);
+    if (!hotelDetails) {
+      handleCreateHotel(formData);
+    }
+    if (hotelDetails) {
+      handleUpdateHotelById(hotelDetails?._id, formData);
+    }
   };
   return (
     <FormProvider {...formData}>
@@ -43,7 +65,7 @@ const ManageAllHotelForms = () => {
         onSubmit={handleSubmit(createNewHotel)}
         className="flex flex-col gap-10"
       >
-        <DetailsSection />
+        <DetailsSection hotelDetails={hotelDetails} />
         <TypesSections />
         <FacilitiesSection />
         <GuestsSection />
