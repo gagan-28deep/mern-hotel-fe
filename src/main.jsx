@@ -62,9 +62,9 @@ const router = createBrowserRouter([
       {
         path: "searched-hotels",
         element: (
-          // <AuthLayout authentication={false}>
-          <SearchedHotelPages />
-          // </AuthLayout>
+          <AuthLayout authentication={false}>
+            <SearchedHotelPages />
+          </AuthLayout>
         ),
       },
     ],
