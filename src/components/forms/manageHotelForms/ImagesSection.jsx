@@ -43,15 +43,32 @@ const ImagesSection = () => {
           className="w-full text-gray-700"
           {...register("imageFiles", {
             validate: (imageFiles) => {
-              const totalFiles =
-                imageFiles?.length +
-                (existingImageFiles[0]
-                  ? existingImageFiles[0]?.length
-                    ? existingImageFiles
-                      ? existingImageFiles?.length
-                      : 0
-                    : 0
-                  : 0);
+              // const totalFiles =
+              //   imageFiles?.length +
+              //   (existingImageFiles[0]
+              //     ? existingImageFiles[0]?.length
+              //       ? existingImageFiles
+              //         ? existingImageFiles?.length
+              //         : 0
+              //       : 0
+              //     : 0);
+
+              let totalFiles = 0;
+
+              if (imageFiles?.length) {
+                totalFiles += imageFiles.length;
+              }
+              if (existingImageFiles && existingImageFiles[0]) {
+                if (existingImageFiles[0].length) {
+                  if (existingImageFiles) {
+                    totalFiles += existingImageFiles.length;
+                  }
+                }
+              } else {
+                existingImageFiles?.length &&
+                  (totalFiles += existingImageFiles?.length);
+              }
+
               if (totalFiles === 0) {
                 return "At least one image file is required";
               }

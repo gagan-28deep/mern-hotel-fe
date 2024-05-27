@@ -12,6 +12,7 @@ import AuthLayout from "./components/AuthLayout.jsx";
 import AddHotelPage from "./pages/AddHotelPage.jsx";
 import MyHotelPage from "./pages/MyHotelPage.jsx";
 import EditHotelPage from "./pages/EditHotelPage.jsx";
+import SearchedHotelPages from "./pages/SearchedHotelPages.jsx";
 
 const router = createBrowserRouter([
   {
@@ -44,11 +45,27 @@ const router = createBrowserRouter([
       },
       {
         path: "my-hotels",
-        element: <MyHotelPage />,
+        element: (
+          <AuthLayout authentication={true}>
+            <MyHotelPage />
+          </AuthLayout>
+        ),
       },
       {
         path: "edit-hotel/:id",
-        element: <EditHotelPage />,
+        element: (
+          <AuthLayout authentication={true}>
+            <EditHotelPage />
+          </AuthLayout>
+        ),
+      },
+      {
+        path: "searched-hotels",
+        element: (
+          // <AuthLayout authentication={false}>
+          <SearchedHotelPages />
+          // </AuthLayout>
+        ),
       },
     ],
   },

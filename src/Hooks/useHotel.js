@@ -10,7 +10,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 
 import { createHotel } from "../services/hotel/createHotel";
-import { getAllHotels } from "../services/hotel/getAllHotels";
+import { getAllHotelsOfLoggedInUser } from "../services/hotel/getAllHotels";
 import { showToast } from "../utils/showToast";
 import { useNavigate } from "react-router-dom";
 import { getHotelById } from "../services/hotel/getHotelById";
@@ -46,7 +46,7 @@ const useHotel = () => {
         Authorization: `Bearer ${accessToken}`,
       };
       dispatch(getAllHotelsLoading());
-      const response = await getAllHotels(headers);
+      const response = await getAllHotelsOfLoggedInUser(headers);
       if (response && response?.status === 200) {
         dispatch(getAllHotelsSuccess(response?.data?.data));
       }

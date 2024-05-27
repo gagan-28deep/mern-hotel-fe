@@ -2,6 +2,6 @@
 
 import { defaultSecuredAxios } from "../DefaultSecuredAxiosInstance";
 
-export const getAllHotels = async (headers) => {
+export const getAllHotelsOfLoggedInUser = async (headers) => {
   return await defaultSecuredAxios.get("/hotel", { headers });
 };
