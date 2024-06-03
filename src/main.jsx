@@ -59,12 +59,13 @@ const router = createBrowserRouter([
           </AuthLayout>
         ),
       },
+      // Might have to remove Auth Layout from some components
       {
         path: "searched-hotels",
         element: (
-          <AuthLayout authentication={false}>
-            <SearchedHotelPages />
-          </AuthLayout>
+          // <AuthLayout authentication={false}>
+          <SearchedHotelPages />
+          // </AuthLayout>
         ),
       },
     ],

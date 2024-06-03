@@ -4,6 +4,11 @@ import SearchResultCard from "./SearchResultCard";
 import Pagination from "./Pagination";
 import useAllHotels from "../Hooks/useAllHotels";
 import { getHotelsBySearch } from "../store/slices/allHotelsSlice";
+import StarRating from "./searchedHotelFilters/StarRating";
+import HotelTypesFilter from "./searchedHotelFilters/HotelTypesFilter";
+import FacilitiesFilter from "./searchedHotelFilters/FacilitiesFilter";
+import PriceFilter from "./searchedHotelFilters/PriceFilter";
+import SortFilter from "./searchedHotelFilters/SortFilter";
 
 const SearchHotels = () => {
   const dispatch = useDispatch();
@@ -15,9 +20,46 @@ const SearchHotels = () => {
     useSelector((state) => state?.allHotels?.checkOut) || new Date();
   const adultCount = useSelector((state) => state?.allHotels?.adultCount);
   const childCount = useSelector((state) => state?.allHotels?.childCount);
+  const stars = useSelector((state) => state?.allHotels?.stars) || [];
+
+  const [selectedStars, setSelectedStars] = React.useState([]);
+  const [selectedHotelTypes, setSelectedHotelTypes] = React.useState([]);
+  const [selectedFacilities, setSelectedFacilities] = React.useState([]);
+  const [selectedPrice, setSelectedPrice] = React.useState(null);
+  const [sortOption, setSortOption] = React.useState("");
 
   const [page, setPage] = React.useState(1);
 
+  // Star
+  const handleStarChange = (e) => {
+    const starRating = e.target.value;
+
+    setSelectedStars((prevStars) =>
+      e.target.checked
+        ? [...prevStars, starRating]
+        : prevStars?.filter((star) => star !== starRating)
+    );
+  };
+
+  // Hotel Types
+  const handleHotelTypeChange = (e) => {
+    const hotelType = e.target.value;
+    setSelectedHotelTypes((prevHotelTypes) =>
+      e.target.checked
+        ? [...prevHotelTypes, hotelType]
+        : prevHotelTypes?.filter((hotel) => hotel !== hotelType)
+    );
+  };
+
+  // Facilities
+  const handleFacilityChange = (e) => {
+    const facility = e.target.value;
+    setSelectedFacilities((prevFacilities) =>
+      e.target.checked
+        ? [...prevFacilities, facility]
+        : prevFacilities?.filter((facility) => facility !== facility)
+    );
+  };
 
   useEffect(() => {
     const initial = () => {
@@ -29,6 +71,11 @@ const SearchHotels = () => {
           adultCount: adultCount?.toString() || 1,
           childCount: childCount?.toString() || 0,
           page: 1,
+          stars: selectedStars,
+          types: selectedHotelTypes,
+          facilities: selectedFacilities,
+          maxPrice: selectedPrice,
+          sortOption,
         })
       );
       handleGetHotelsBySearch(
@@ -39,11 +86,34 @@ const SearchHotels = () => {
           checkOutData,
           adultCount,
           childCount,
+          stars: selectedStars,
+          types: selectedHotelTypes,
+          facilities: selectedFacilities,
+          maxPrice: selectedPrice,
+          sortOption,
         }
       );
     };
     initial();
   }, [page]);
+
+  useEffect(() => {
+    dispatch(
+      getHotelsBySearch({
+        stars: selectedStars,
+        types: selectedHotelTypes,
+        facilities: selectedFacilities,
+        maxPrice: selectedPrice,
+        sortOption,
+      })
+    );
+  }, [
+    selectedStars,
+    selectedHotelTypes,
+    selectedFacilities,
+    selectedPrice,
+    sortOption,
+  ]);
 
   const searchedHotelData = useSelector(
     (state) => state?.allHotels?.allSearchHotelsData
@@ -66,6 +136,22 @@ const SearchHotels = () => {
           <h3 className="text-lg font-semibold border-b border-slate-300 pb-5">
             Filter By:
           </h3>
+          <StarRating
+            selectedStars={selectedStars}
+            onChange={handleStarChange}
+          />
+          <HotelTypesFilter
+            selectedHotelTypes={selectedHotelTypes}
+            onChange={handleHotelTypeChange}
+          />
+          <FacilitiesFilter
+            selectedFacilities={selectedFacilities}
+            onChange={handleFacilityChange}
+          />
+          <PriceFilter
+            selectedPrice={selectedPrice}
+            onChange={(p) => setSelectedPrice(p)}
+          />
         </div>
       </div>
 
@@ -74,10 +160,12 @@ const SearchHotels = () => {
         <div className="flex justify-between items-center">
           <span className="text-xl font-bold">
             {searchedHotelData?.pagination?.totalHotels} Hotels Found{" "}
-            {destination !== "" && (
-              <span className="text-xl font-bold">in {destination}</span>
-            )}
+            {destination !== "" ||
+              (destination && (
+                <span className="text-xl font-bold">in {destination}</span>
+              ))}
           </span>
+          <SortFilter sortOption={sortOption} onChange={setSortOption} />
         </div>
         {searchedHotelData?.hotels?.length > 0 &&
           searchedHotelData?.hotels?.map((hotel) => (

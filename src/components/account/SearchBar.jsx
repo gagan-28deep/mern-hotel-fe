@@ -3,7 +3,7 @@ import useAllHotels from "../../Hooks/useAllHotels";
 import { MdTravelExplore } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getHotelsBySearch } from "../../store/slices/allHotelsSlice";
 
 const SearchBar = () => {
@@ -31,6 +31,13 @@ const SearchBar = () => {
   //   // }, [dispatch, destination, checkIn, checkOut, adultCount, childCount]);
   // }, [dispatch, destination, checkIn, checkOut, adultCount, childCount]);
 
+  // Get values from store
+  const stars = useSelector((state) => state?.allHotels?.stars) || [];
+  const types = useSelector((state) => state?.allHotels?.types) || [];
+  const facilities = useSelector((state) => state?.allHotels?.facilities) || [];
+  const maxPrice = useSelector((state) => state?.allHotels?.maxPrice);
+  const sortOption = useSelector((state) => state?.allHotels?.sortOption);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(
@@ -41,15 +48,28 @@ const SearchBar = () => {
         adultCount: adultCount?.toString() || 1,
         childCount: childCount?.toString() || 0,
         page: 1,
+        stars: stars || [],
+        types: types || [],
+        facilities: facilities || [],
+        maxPrice: maxPrice || "",
+        sortOption: sortOption || "",
       })
     );
-    handleGetHotelsBySearch({page : 1} ,  {
-      destination,
-      checkIn,
-      checkOut,
-      adultCount,
-      childCount,
-    });
+    handleGetHotelsBySearch(
+      { page: 1 },
+      {
+        destination,
+        checkIn,
+        checkOut,
+        adultCount,
+        childCount,
+        stars,
+        types,
+        facilities,
+        maxPrice,
+        sortOption,
+      }
+    );
   };
 
   const handleClear = () => {
