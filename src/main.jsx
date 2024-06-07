@@ -72,9 +72,9 @@ const router = createBrowserRouter([
       {
         path: "detail/:id",
         element: (
-          // <AuthLayout authentication={true}>
-          <ViewHotelPage />
-          // </AuthLayout>
+          <AuthLayout authentication={true}>
+            <ViewHotelPage />
+          </AuthLayout>
         ),
       },
     ],

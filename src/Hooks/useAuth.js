@@ -7,7 +7,7 @@ import {
   getIsAuthenticated,
 } from "../store/slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { showToast } from "../utils/showToast";
 import { signup } from "../services/auth/register";
 import { signin } from "../services/auth/signin";
@@ -18,6 +18,8 @@ const useAuth = () => {
   const accessToken = useSelector((state) => state?.user?.accessToken);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const location = useLocation();
 
   // SignUp
   const handleSignUp = async (data) => {
@@ -55,7 +57,8 @@ const useAuth = () => {
         dispatch(getRefreshToken(response?.data?.data?.refreshToken));
         dispatch(getIsAuthenticated(true));
         showToast("User logged in successfully", "success");
-        navigate("/");
+        // Sign in based on previous data if stored
+        navigate(location?.state?.from?.pathname || "/");
       }
     } catch (error) {
       dispatch(getUserError(error?.response?.data?.message));

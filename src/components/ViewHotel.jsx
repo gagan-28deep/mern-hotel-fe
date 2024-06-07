@@ -1,21 +1,21 @@
 import React, { useEffect } from "react";
-import useHotel from "../Hooks/useHotel";
+import useAllHotels from "../Hooks/useAllHotels";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AiFillStar } from "react-icons/ai";
 import GuestInfoForm from "./forms/guestInfoForms/GuestInfoForm";
 
 const ViewHotel = () => {
-  const { handleGetHotelById } = useHotel();
+  const { handleGetSingleHotel } = useAllHotels();
   const { id } = useParams();
 
-  const hotelDetails = useSelector((state) => state?.hotel?.hotelData?.hotel);
-
-  console.log("hhh", hotelDetails);
+  const hotelDetails = useSelector(
+    (state) => state?.allHotels?.viewHotelData?.hotel
+  );
 
   useEffect(() => {
     const initial = async () => {
-      await handleGetHotelById(id);
+      await handleGetSingleHotel(id);
     };
     initial();
   }, [id]);

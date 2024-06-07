@@ -47,6 +47,18 @@ const GuestInfoForm = ({ hotelId, pricePerNight }) => {
 
   //   If the user in not signed in
 
+  // const onSignInClick = (data) => {
+  //   dispatch(
+  //     getHotelsBySearch({
+  //       checkIn: data.checkIn,
+  //       checkOut: data.checkOut,
+  //       adultCount: data.adultCount,
+  //       childCount: data.childCount,
+  //     })
+  //   );
+  //   navigate("/login", { state: { from: location } });
+  // };
+
   const onSignInClick = (data) => {
     dispatch(
       getHotelsBySearch({
@@ -56,7 +68,7 @@ const GuestInfoForm = ({ hotelId, pricePerNight }) => {
         childCount: data.childCount,
       })
     );
-    navigate("/login", { state: { from: location } });
+    navigate("/login", { state: { from: location, bookingData: data } });
   };
 
   //   If the user is signed in
@@ -75,7 +87,9 @@ const GuestInfoForm = ({ hotelId, pricePerNight }) => {
     <div className="flex flex-col p-4 bg-blue-300 gap-4">
       <h3 className="text-md font-bold">${pricePerNight} </h3>
       <form
-        onSubmit={isAuthenticated ? handleSubmit(onSubmit) : onSignInClick}
+        onSubmit={
+          isAuthenticated ? handleSubmit(onSubmit) : handleSubmit(onSignInClick)
+        }
         className="grid grid-cols-1 gap-4 items-center"
       >
         {/* For check-in */}
