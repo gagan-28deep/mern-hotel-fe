@@ -13,12 +13,19 @@ import {
   getRefreshToken,
 } from "./store/slices/userSlice";
 
+import { getStripePromise } from "./store/slices/stripeSlices";
+
+import { loadStripe } from "@stripe/stripe-js";
+const stripe_pub_key = import.meta.env.VITE_STRIPE_PUB_KEY || "";
+const stripePromise = await loadStripe(stripe_pub_key);
+
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     const userData = getStorage("user");
     const accessToken = getStorage("accessToken");
     const refreshToken = getStorage("refreshToken");
+    dispatch(getStripePromise(stripePromise));
     if (userData && accessToken && refreshToken) {
       dispatch(getUserSuccess(userData));
       dispatch(getAccessToken(accessToken));
