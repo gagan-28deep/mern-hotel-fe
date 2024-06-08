@@ -7,6 +7,11 @@ const initialState = {
   accessToken: null,
   refreshToken: null,
   isAuthenticated: false,
+
+  // Logged in user
+  loggedInUserLoading: false,
+  loggedInUserData: null,
+  loggedInUserError: null,
 };
 
 const userSlice = createSlice({
@@ -44,6 +49,21 @@ const userSlice = createSlice({
     getIsAuthenticated: (state, action) => {
       state.isAuthenticated = action.payload;
     },
+
+    // get Logged in user
+    getLoggedInUserLoading: (state) => {
+      state.loggedInUserLoading = true;
+    },
+    getLoggedInUserSuccess: (state, action) => {
+      state.loggedInUserLoading = false;
+      state.loggedInUserData = action.payload;
+      state.loggedInUserError = null;
+    },
+    getLoggedInUserError: (state, action) => {
+      state.loggedInUserLoading = false;
+      state.loggedInUserData = null;
+      state.loggedInUserError = action.payload;
+    },
   },
 });
 
@@ -54,6 +74,10 @@ export const {
   getAccessToken,
   getRefreshToken,
   getIsAuthenticated,
+
+  getLoggedInUserLoading,
+  getLoggedInUserSuccess,
+  getLoggedInUserError,
 } = userSlice.actions;
 
 export default userSlice.reducer;

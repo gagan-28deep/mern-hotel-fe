@@ -14,6 +14,7 @@ import MyHotelPage from "./pages/MyHotelPage.jsx";
 import EditHotelPage from "./pages/EditHotelPage.jsx";
 import SearchedHotelPages from "./pages/SearchedHotelPages.jsx";
 import ViewHotelPage from "./pages/ViewHotelPage.jsx";
+import BookingPage from "./pages/BookingPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,14 @@ const router = createBrowserRouter([
           </AuthLayout>
         ),
       },
+      {
+        path : "/hotel/:hotelId/booking",
+        element : (
+          <AuthLayout authentication={true}>
+            <BookingPage />
+          </AuthLayout>
+        )
+      }
     ],
   },
 ]);

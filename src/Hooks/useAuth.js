@@ -5,6 +5,9 @@ import {
   getAccessToken,
   getRefreshToken,
   getIsAuthenticated,
+  getLoggedInUserLoading,
+  getLoggedInUserSuccess,
+  getLoggedInUserError,
 } from "../store/slices/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -13,6 +16,7 @@ import { signup } from "../services/auth/register";
 import { signin } from "../services/auth/signin";
 import { signout } from "../services/auth/signout";
 import { removeStorage, setStorage } from "../services/storageService";
+import { getLoggedInUser } from "../services/auth/getLoggedInUser";
 
 const useAuth = () => {
   const accessToken = useSelector((state) => state?.user?.accessToken);
@@ -89,10 +93,28 @@ const useAuth = () => {
       showToast(error?.response?.data?.message, "error");
     }
   };
+
+  // Get logged in user
+  const handleGetLoggedInUser = async () => {
+    try {
+      dispatch(getLoggedInUserLoading());
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
+      const response = await getLoggedInUser(headers);
+      if (response) {
+        dispatch(getLoggedInUserSuccess(response?.data?.data));
+      }
+    } catch (error) {
+      dispatch(getLoggedInUserError(error?.response?.data?.message));
+      showToast(error?.response?.data?.message, "error");
+    }
+  };
   return {
     handleSignUp,
     handleLogin,
     handleSignOut,
+    handleGetLoggedInUser,
   };
 };
 
