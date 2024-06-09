@@ -18,6 +18,11 @@ const initialState = {
   allSearchHotelsData: null,
   allSearchHotelsError: null,
 
+  // For all registered Hotels
+  allRegisteredHotelsLoading: false,
+  allRegisteredHotelsData: null,
+  allRegisteredHotelsError: null,
+
   // For a single hotel
   viewHotelLoading: false,
   viewHotelData: null,
@@ -83,6 +88,21 @@ const allHotelsSlice = createSlice({
       state.viewHotelData = null;
       state.viewHotelError = action.payload;
     },
+
+    // For all registered Hotels
+    getAllRegisteredHotelsLoading: (state) => {
+      state.allRegisteredHotelsLoading = true;
+    },
+    getAllRegisteredHotelsSuccess: (state, action) => {
+      state.allRegisteredHotelsLoading = false;
+      state.allRegisteredHotelsData = action.payload;
+      state.allRegisteredHotelsError = null;
+    },
+    getAllRegisteredHotelsError: (state, action) => {
+      state.allRegisteredHotelsLoading = false;
+      state.allRegisteredHotelsData = null;
+      state.allRegisteredHotelsError = action.payload;
+    },
   },
 });
 
@@ -95,6 +115,10 @@ export const {
   getSingleHotelError,
   getSingleHotelLoading,
   getSingleHotelSuccess,
+
+  getAllRegisteredHotelsError,
+  getAllRegisteredHotelsLoading,
+  getAllRegisteredHotelsSuccess,
 } = allHotelsSlice.actions;
 
 export default allHotelsSlice.reducer;

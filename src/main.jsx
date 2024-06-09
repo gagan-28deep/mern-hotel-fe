@@ -16,12 +16,19 @@ import SearchedHotelPages from "./pages/SearchedHotelPages.jsx";
 import ViewHotelPage from "./pages/ViewHotelPage.jsx";
 import BookingPage from "./pages/BookingPage.jsx";
 import MyBookingPage from "./pages/MyBookingPage.jsx";
+import Home from "./components/Home.jsx"
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
     children: [
+      {
+        path: "/",
+        element : (
+          <Home />
+        )
+      },
       {
         path: "signup",
         element: (
