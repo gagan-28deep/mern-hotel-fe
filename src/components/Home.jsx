@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import useAllHotels from "../Hooks/useAllHotels";
 import { useSelector } from "react-redux";
 import LatestDestinationCard from "./LatestDestinationCard";
+import Loader from "./Loader";
 
 const Home = () => {
   const { handleGetAllRegisteredHotels } = useAllHotels();
@@ -9,6 +10,8 @@ const Home = () => {
   const allRegisteredHotels = useSelector(
     (state) => state?.allHotels?.allRegisteredHotelsData?.hotels
   );
+
+  const isLoading = useSelector((state) => state?.allHotels?.allRegisteredHotelsLoading);
 
   const topRowHotels = allRegisteredHotels?.slice(0, 2) || [];
 
@@ -20,6 +23,10 @@ const Home = () => {
     };
     initial();
   }, []);
+
+  if (isLoading) {
+    return <Loader />;
+  }
   return (
     <div className="space-y-3">
       <h2 className="text-3xl font-bold">Latest Destinations</h2>

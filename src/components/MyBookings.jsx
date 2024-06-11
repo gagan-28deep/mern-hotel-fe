@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import myBookings from "../Hooks/myBookings";
 import { useSelector } from "react-redux";
+import Loader from "./Loader";
 
 const MyBookings = () => {
   const { handleGetMyBookings } = myBookings();
@@ -9,6 +10,8 @@ const MyBookings = () => {
     (state) => state?.myBooking?.myBookingData?.results
   );
 
+  const isLoading = useSelector((state) => state?.myBooking?.myBookingLoading);
+
   useEffect(() => {
     const initial = async () => {
       await handleGetMyBookings();
@@ -16,6 +19,9 @@ const MyBookings = () => {
     initial();
   }, []);
 
+  if(isLoading) {
+    return <Loader />
+  }
   if (!myBookingData || myBookingData?.length === 0) {
     return <div className="text-center">No Bookings</div>;
   }

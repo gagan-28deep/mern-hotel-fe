@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { AiFillStar } from "react-icons/ai";
 import GuestInfoForm from "./forms/guestInfoForms/GuestInfoForm";
+import Loader from "./Loader";
 
 const ViewHotel = () => {
   const { handleGetSingleHotel } = useAllHotels();
@@ -13,6 +14,8 @@ const ViewHotel = () => {
     (state) => state?.allHotels?.viewHotelData?.hotel
   );
 
+  const isLoading = useSelector((state) => state?.allHotels?.viewHotelLoading);
+
   useEffect(() => {
     const initial = async () => {
       await handleGetSingleHotel(id);
@@ -20,8 +23,10 @@ const ViewHotel = () => {
     initial();
   }, [id]);
 
-  if (!hotelDetails) {
-    return <div className="text-center">Loading...</div>;
+  if (isLoading) {
+    return <div className="text-center">
+      <Loader />
+    </div>;
   }
   return (
     <div className="space-y-6">
