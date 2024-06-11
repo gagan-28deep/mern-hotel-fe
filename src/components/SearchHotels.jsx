@@ -9,6 +9,7 @@ import HotelTypesFilter from "./searchedHotelFilters/HotelTypesFilter";
 import FacilitiesFilter from "./searchedHotelFilters/FacilitiesFilter";
 import PriceFilter from "./searchedHotelFilters/PriceFilter";
 import SortFilter from "./searchedHotelFilters/SortFilter";
+import Loader from "./Loader";
 
 const SearchHotels = () => {
   const dispatch = useDispatch();
@@ -119,7 +120,15 @@ const SearchHotels = () => {
     (state) => state?.allHotels?.allSearchHotelsData
   );
 
+  const isLoading = useSelector(
+    (state) => state?.allHotels?.allSearchHotelsLoading
+  );
+
   useEffect(() => {}, [searchedHotelData]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   if (!searchedHotelData || searchedHotelData?.hotels?.length === 0) {
     return (
