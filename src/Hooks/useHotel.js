@@ -50,7 +50,7 @@ const useHotel = () => {
       if (response && response?.status === 200) {
         dispatch(getAllHotelsSuccess(response?.data?.data));
       }
-      dispatch(getAllHotelsLoading());
+      // dispatch(getAllHotelsLoading());
     } catch (error) {
       dispatch(getAllHotelsError(error?.response?.data?.message));
       showToast(error?.response?.data?.message, "error");

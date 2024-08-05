@@ -22,10 +22,13 @@ const MyHotels = () => {
     initial();
   }, []);
 
+  if (hotelsDataLoading) {
+    return <Loader />;
+  }
+
   if (!allHotelDetails || allHotelDetails?.length === 0) {
     return (
       <div className="text-center">
-        {hotelsDataLoading && <Loader />}
         <h1 className="text-3xl font-bold mb-3">No Hotels Found</h1>
         <Link
           to="/add-hotel"
